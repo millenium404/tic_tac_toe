@@ -4,6 +4,16 @@ from pygame.locals import *
 import time
 
 app = Flask(__name__)
+# initialize global variables
+XO = 'x'
+winner = None
+draw = False
+width = 400
+height = 400
+white = (255, 255, 255)
+line_color = (10, 10, 10)
+# TicTacToe 3x3 board
+TTT = [[None] * 3, [None] * 3, [None] * 3]
 
 
 @app.route("/")
@@ -12,16 +22,6 @@ def index():
 
 
 def game():
-    # initialize global variables
-    XO = 'x'
-    winner = None
-    draw = False
-    width = 400
-    height = 400
-    white = (255, 255, 255)
-    line_color = (10, 10, 10)
-    # TicTacToe 3x3 board
-    TTT = [[None] * 3, [None] * 3, [None] * 3]
 
     # initializing pygame window
     pg.init()
@@ -96,7 +96,7 @@ def game():
             # game won diagonally right to left
             winner = TTT[0][2]
             pg.draw.line(screen, (250, 70, 70), (350, 50), (50, 350), 4)
-        if (all([all(row) for row in TTT]) and winner is None):
+        if all([all(row) for row in TTT]) and winner is None:
             draw = True
         draw_status()
 
@@ -177,4 +177,7 @@ def game():
         pg.display.update()
         CLOCK.tick(fps)
 
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=8080, debug=True)
 
